@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+  class="in-text"
+  version="1.0"
+  default-locale="uk-UA">
+
+  <info>
+    <title>DSTU 8302:2015 (alphabetical)</title>
+    <title-short>ДСТУ 8302:2015 (A–Z)</title-short>
+    <id>http://www.zotero.org/styles/dstu-8302-2015-alphabetical</id>
+    <category citation-format="numeric" />
+    <updated>2026-01-03T23:18:00Z</updated>
+  </info>
+
+  <!-- ================= LOCALE ================= -->
+  <locale>
+    <terms>
+      <term name="et-al">та ін.</term>
+      <term name="page" form="short">С.</term>
+      <term name="issue" form="short">№</term>
+      <term name="editor" form="short">ред.</term>
+      <term name="translator" form="short">пер.</term>
+      <term name="no date">Без дати</term>
+    </terms>
+  </locale>
+
+  <!-- ================= AUTHORS ================= -->
+  <macro name="author-all">
+    <names variable="author" delimiter=", ">
+      <name name-as-sort-order="all"
+        initialize-with=". "
+        et-al-min="3"
+        et-al-use-first="3" />
+      <et-al />
+      <substitute>
+        <names variable="editor" />
+      </substitute>
+    </names>
+  </macro>
+
+  <!-- ================= TITLES ================= -->
+  <macro name="section-title">
+    <text variable="title" />
+  </macro>
+
+  <macro name="container-title">
+    <text variable="container-title" />
+  </macro>
+
+  <!-- ================= VOLUME / ISSUE / PAGES ================= -->
+  <macro name="volume-issue-pages">
+    <choose>
+      <if variable="volume">
+        <text value="Т. " />
+        <text variable="volume" suffix=". " />
+      </if>
+    </choose>
+    <choose>
+      <if variable="issue">
+        <text value="№ " />
+        <text variable="issue" suffix=". " />
+      </if>
+    </choose>
+    <choose>
+      <if variable="page">
+        <text value="С. " />
+        <text variable="page" suffix=". " />
+      </if>
+    </choose>
+  </macro>
+
+  <!-- ================= PUBLISHER ================= -->
+  <macro name="publisher">
+    <choose>
+      <if variable="publisher-place">
+        <text variable="publisher-place" />
+        <choose>
+          <if variable="publisher">
+            <text value=" : " />
+            <text variable="publisher" />
+          </if>
+        </choose>
+      </if>
+      <else>
+        <text variable="publisher" />
+      </else>
+    </choose>
+    <choose>
+      <if variable="issued">
+        <text value=", " />
+        <date variable="issued">
+          <date-part name="year" />
+        </date>
+        <text value=". " />
+      </if>
+    </choose>
+  </macro>
+
+  <!-- ================= INTERNET ================= -->
+  <macro name="internet">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix="DOI: " suffix=". " />
+      </if>
+    </choose>
+    <choose>
+      <if variable="URL">
+        <text variable="URL" prefix="URL: " suffix=" " />
+        <choose>
+          <if variable="accessed">
+            <date variable="accessed"
+              prefix="(дата звернення: "
+              suffix=")">
+              <date-part name="day" form="numeric-leading-zeros" />
+              <date-part name="month" form="numeric-leading-zeros" />
+              <date-part name="year" />
+            </date>
+          </if>
+        </choose>
+      </if>
+    </choose>
+  </macro>
+
+  <!-- ================= CITATION ================= -->
+  <citation collapse="citation-number">
+    <layout prefix="[" suffix="]" delimiter="; ">
+      <text variable="citation-number" />
+    </layout>
+  </citation>
+
+  <!-- ================= BIBLIOGRAPHY ================= -->
+  <bibliography>
+    <!-- ALPHABETICAL SORTING -->
+    <sort>
+      <key variable="author" />
+      <key variable="editor" />
+      <key variable="title" />
+      <key variable="issued" />
+    </sort>
+
+    <layout>
+      <text variable="citation-number" suffix=". " />
+
+      <!-- JOURNAL ARTICLES -->
+      <choose>
+        <if type="article-journal">
+          <text macro="author-all" suffix=". " />
+          <text macro="section-title" suffix=". " />
+          <text macro="container-title" suffix=". " />
+          <text macro="volume-issue-pages" />
+          <text macro="internet" />
+        </if>
+
+        <!-- CONFERENCE PAPERS / THESES -->
+        <else-if type="paper-conference">
+          <text macro="author-all" suffix=". " />
+          <text macro="section-title" suffix=". " />
+          <text macro="container-title" suffix=". " />
+          <text macro="publisher" />
+          <text macro="volume-issue-pages" />
+          <text macro="internet" />
+        </else-if>
+
+        <!-- BOOKS / DISSERTATIONS -->
+        <else-if type="book thesis">
+          <text macro="author-all" suffix=". " />
+          <text macro="section-title" suffix=". " />
+          <text macro="publisher" />
+          <text macro="internet" />
+        </else-if>
+
+        <!-- DEFAULT -->
+        <else>
+          <text macro="author-all" suffix=". " />
+          <text macro="section-title" suffix=". " />
+          <text macro="container-title" suffix=". " />
+          <text macro="internet" />
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+
+</style>
